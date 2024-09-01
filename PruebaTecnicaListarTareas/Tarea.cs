@@ -1,13 +1,15 @@
 ﻿using System;
-using System.Text;
+
 namespace PruebaTecnicaListarTareas
 {
-    internal class Tarea
+    /*Clase de tarea encapsulada, utilizamos propiedades para manipular las variables
+     Contiene un constructor */
+    public class Tarea
     {
         private int id;
         private string descripcion;
         private DateTime? fechaLimite;
-        private bool estado;
+        private bool estado; /*Utilizado para diferenciar las tareas completadas de las tareas pendientes*/
 
         public int Id {
             get { return id; }
@@ -27,7 +29,7 @@ namespace PruebaTecnicaListarTareas
             get { return estado; }
             set { estado = value; }
         }
-
+        /*Constructor de tarea, permite fechas nulas*/
         public Tarea(int id, string descripcion, DateTime? fechaLimite, bool estado)
         {
             this.id = id;

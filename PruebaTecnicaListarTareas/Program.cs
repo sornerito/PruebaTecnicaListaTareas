@@ -2,16 +2,16 @@
 
 namespace PruebaTecnicaListarTareas
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {
             string opcion;
-            GestionTarea lista1 = new GestionTarea();
+            GestionTarea lista1 = new GestionTarea(); /*Creamos un objeto con la clase GestionTarea*/
 
             do{
-                menu();
-                do{
+                Menu(); /*Mostramos el menú cada vez que se ejecute una acción*/
+                do{ /*Solicita la opción y valida que esta opción existe maediante un método*/
                     Console.WriteLine("\nElige una opción: ");
                     opcion = Console.ReadLine();
                     if (!ValidarOpcion(opcion)){
@@ -19,15 +19,17 @@ namespace PruebaTecnicaListarTareas
                     }
                 } while (!ValidarOpcion(opcion));
 
-                switch (opcion){
+                switch (opcion){ 
                     case "1":
+                        /*Solicitamos los campos, validamos que no esten vacios haciendo uso del método "ValidarCampoVacio"*/
                         Console.WriteLine("\nIngrese la descripción de la tarea: ");
                         string descripcion = ValidarCampoVacio("descripción");
                         DateTime? fechaLimite = null;
                         string fecha;
 
                         bool fechaValida = false;
-                        while (!fechaValida){
+                        while (!fechaValida){ /*Mientras que no se haya ingresado una fecha valida (o una opcion diferente a "n")
+                                               se preguntara de nuevo por la fecha*/
                             Console.WriteLine("\nIngrese la fecha límite (YYYY-MM-DD) de la tarea o ingrese \"n\" para omitirlo: ");
                             fecha = ValidarCampoVacio("fecha");
 
@@ -35,7 +37,7 @@ namespace PruebaTecnicaListarTareas
                                 fechaValida = true;
                             }
                             else{
-                                if (DateTime.TryParse(fecha, out DateTime fechaParseada)){
+                                if (DateTime.TryParse(fecha, out DateTime fechaParseada)){ /*Intentara parsear el valor ingresado*/
                                     fechaLimite = fechaParseada;
                                     fechaValida = true;
                                 }
@@ -45,24 +47,26 @@ namespace PruebaTecnicaListarTareas
                             }
                         }
 
-                        string resultado = lista1.AgregarTarea(descripcion, fechaLimite);
+                        string resultado = lista1.AgregarTarea(descripcion, fechaLimite); /*Hace uso del metodo en la clase para agregar la tarea*/
                         Console.WriteLine(resultado);
                         break;
-                    case "2":
+                    case "2": /*Lista las tareas*/
                         Console.WriteLine(lista1.ListarTareas());
                         break;
                     case "3":
                         Console.WriteLine("\nIngresa la descripción de la tarea o el id: ");
-                        string respuestaMarcarTarea = lista1.MarcarTarea(ValidarCampoVacio("identificador"));
+                        string respuestaMarcarTarea = lista1.MarcarTarea(ValidarCampoVacio("identificador")); /*Solicita un identificador para modificar
+                                                                                                               el estado de la tarea*/
                         Console.WriteLine(respuestaMarcarTarea);
                         break;
                     case "4":
                         Console.WriteLine("\nIngresa la descripción de la tarea o el id: ");
+                        /*Solicita un identificador para borrar la tarea*/
                         string respuestaEliminarTarea = lista1.EliminarTarea(ValidarCampoVacio("identificador"));
                         Console.WriteLine(respuestaEliminarTarea);
                         break;
                     case "5":
-                        Console.WriteLine("\n== Saliendo del sistema...");
+                        Console.WriteLine("\n== Saliendo del sistema..."); /*Sale del ciclo, terminando con el aplicativo*/
                         return;
                     default:
                         Console.WriteLine("\n== Opción no válida.");
@@ -71,7 +75,7 @@ namespace PruebaTecnicaListarTareas
             } while (true);
         }
 
-        static public string ValidarCampoVacio(string nombreCampo)
+        static public string ValidarCampoVacio(string nombreCampo) /*Método que valida que la variable que se esta ingresando no este vacio*/
         {
             string variable;
             do {
@@ -83,12 +87,12 @@ namespace PruebaTecnicaListarTareas
             
             return variable;
         }
-        static bool ValidarOpcion(string opcion)
+        static bool ValidarOpcion(string opcion) /*Método que valida si la opción ingresada es válida.*/
         {
             return opcion == "1" || opcion == "2" || opcion == "3" || opcion == "4" || opcion == "5";
         }
 
-        static public void menu()
+        static public void Menu()
         {
             Console.WriteLine("\n===== LISTA DE TAREAS =====\n" +
                 "1. Agregar tarea\n" +
